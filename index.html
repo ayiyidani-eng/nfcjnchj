@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>CineVault</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -169,8 +169,92 @@ body[data-view=cal] .cp{height:calc(var(--ps-cal)*1%);align-self:flex-start}
 .auth-msg{font-size:13px;min-height:18px;line-height:1.4}.auth-msg.err{color:#ff8a92}.auth-msg.ok{color:#7ed9a0}
 .auth-foot{margin-top:16px;text-align:center;font-size:11px;color:var(--mu);line-height:1.5}
 .nav.out{margin-top:auto}.nav.col{margin-top:0}
+/* ===== Calendario: cada día con el color de «Tarjetas y ventanas» ===== */
+.cal .d{background:var(--card);border:1px solid var(--line)}
+.cal .d.e{background:none;border:0}
+.cal .d.td{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.cal .d .dn{position:relative;z-index:3}
+/* ===== Comunidad ===== */
+.cm-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.cm-bar input{flex:1;min-width:200px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 14px;outline:0;min-height:44px}
+.cm-bar input:focus{border-color:var(--gold)}
+.cm-tabs{display:flex;gap:6px;padding:4px;background:var(--hv);border-radius:12px}
+.cm-tabs button{border:0;background:none;padding:8px 16px;border-radius:9px;cursor:pointer;color:var(--mu);font-weight:600}
+.cm-tabs button.on{background:var(--gold);color:var(--on)}
+.community-user{display:grid;gap:14px;align-content:start}
+.cu-head{display:flex;align-items:center;gap:14px}.cu-head .btn{margin-left:auto;padding:7px 14px;font-size:13px}.cu-head .chip{margin-left:auto}
+.cu-strip{display:flex;gap:6px}
+.cu-p{flex:1 1 0;min-width:0;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:var(--hv);position:relative}
+.cu-p img{width:100%;height:100%;object-fit:cover;display:block}.cu-p span{font-size:9px;padding:4px;color:var(--mu);display:block;line-height:1.2}
+.feed{display:grid;gap:10px}.feed-item{display:flex;gap:12px;align-items:center;padding:12px;cursor:pointer}
+.feed-item .cu-p{flex:0 0 46px}.feed-item p{margin:0 0 4px;font-size:14px;line-height:1.4}
+.pf-head{display:flex;align-items:center;gap:16px;margin-top:14px}.pf-head h1{margin:0}.pf-head p{margin-top:4px;font-size:13px;line-height:1.5}
+.pf-head .community-avatar{flex:0 0 76px}
+/* ===== Móvil: elementos que solo existen en pantallas pequeñas ===== */
+#mtop,#more{display:none}
+@media(max-width:760px){
+html,body{overflow-x:hidden}
+body{font-size:14px}
+#mtop{display:flex;position:sticky;top:0;z-index:15;align-items:center;justify-content:space-between;padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top));background:color-mix(in srgb,var(--side) 92%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+#mtop .logo{padding:0;font-size:20px}
+.mavatar{width:34px;height:34px;border-radius:50%;border:0;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--red));color:var(--on);font:700 15px var(--fh)}
+#more{display:block}
+.more-bg{position:fixed;inset:0;background:#0008;z-index:18}
+.more-sheet{position:fixed;left:10px;right:10px;bottom:calc(68px + env(safe-area-inset-bottom));z-index:19;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:10px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;box-shadow:0 20px 50px #000a;animation:in .25s}
+.more-sheet button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;border:0;border-radius:12px;background:var(--hv);color:var(--tx);cursor:pointer;font-size:12px}
+.more-sheet button span{font-size:22px;color:var(--gold)}.more-sheet button.on{outline:1px solid var(--gold)}.more-sheet button.out span{color:var(--red)}
+.side{height:calc(60px + env(safe-area-inset-bottom));padding:6px 4px calc(6px + env(safe-area-inset-bottom));gap:0;justify-content:space-around;overflow:hidden}
+.nav{position:relative;flex:1;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 2px;font-size:10px;border-radius:10px}
+.nav span{font-size:20px;width:auto}
+.nav.on{background:none!important;box-shadow:none!important;color:var(--gold)}
+.nav.on::before{content:'';position:absolute;top:-6px;left:50%;width:26px;height:3px;margin-left:-13px;border-radius:0 0 3px 3px;background:var(--gold)}
+main,body.c main{margin:0;padding:16px 14px calc(84px + env(safe-area-inset-bottom))}
+.top{flex-direction:column;align-items:stretch;gap:12px;margin-bottom:18px}
+.top>.btn{width:100%}
+h1{font-size:26px}h2{font-size:18px;margin:26px 0 12px}
+.card{padding:14px}
+.kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.kpi div{font-size:24px}.kpi div.s{font-size:15px}
+.feat{grid-template-columns:96px 1fr;gap:14px;padding:14px}.feat h3{font-size:20px}
+.strip{gap:12px;margin:0 -14px;padding:6px 14px 14px}
+body[data-view=home] .strip .m{flex:0 0 112px}
+body[data-view] .grid,body[data-view] .fav-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 10px;justify-content:stretch}
+body[data-view] .community-grid{grid-template-columns:minmax(0,1fr)}
+.m .t{font-size:12px}.m .s{font-size:11px}
+.tools{gap:8px}.tools select,.tools input{flex:1 1 140px;min-width:0}
+.two{grid-template-columns:minmax(0,1fr)}.cv{height:220px}
+.search-main input{min-width:0}
+/* calendario compacto */
+.cal.mob{height:auto;min-height:0;gap:5px}
+.cal.mob .h{padding:2px;font-size:10px}
+.cal.mob .d{aspect-ratio:1;padding:0;border-radius:9px;overflow:hidden}
+.cal.mob .d .dn{position:absolute;top:3px;left:5px;font-size:11px}
+.cal.mob .d.hasm .dn{color:#fff;text-shadow:0 1px 3px #000}
+.cal.mob .mp{position:absolute;inset:0}
+.cal.mob .mp .poster{position:absolute;inset:0;aspect-ratio:auto;border-radius:0;padding:0;box-shadow:none;width:100%}
+.cal.mob .mp .poster b,.cal.mob .mp .poster i{display:none}
+.cal.mob .mp .bdg{top:auto;bottom:3px;left:auto;right:3px;padding:1px 6px;font-size:10px}
+/* diario y listas */
+.row{flex-wrap:wrap;gap:10px}
+.dd{width:auto!important;flex:0 0 100%;font-size:12px}
+/* ventanas como hoja inferior */
+.ov{align-items:flex-end;padding:0}
+.md{border-radius:22px 22px 0 0;max-height:92vh;max-width:none!important;width:100%;padding:22px 16px calc(24px + env(safe-area-inset-bottom));grid-template-columns:minmax(0,1fr)!important;gap:16px}
+.md>div>.poster{max-width:130px;margin:0 auto}
+.md .x{top:8px;right:10px;z-index:5}
+/* configuración */
+.set,.design-manager,.chart-customizer{max-width:none!important}
+.set input[type=range]{width:100%!important}
+.set label[style*="grid-template-columns"]{grid-template-columns:minmax(0,1fr)!important}
+.chart-colors{grid-template-columns:repeat(2,minmax(0,1fr))}
+.design-list{grid-template-columns:minmax(0,1fr)}
+input,select,textarea{font-size:16px!important}
+#toast{bottom:calc(80px + env(safe-area-inset-bottom))}
+/* comunidad */
+.cm-tabs{width:100%}.cm-tabs button{flex:1;padding:8px 6px}
+.pf-head h1{font-size:22px}
+}
 </style></head><body>
-<nav class="side" id="side"></nav><main id="app"></main><div class="ov" id="ov"></div><div id="toast"></div><div id="tp"></div>
+<nav class="side" id="side"></nav><header id="mtop"></header><main id="app"></main><div id="more"></div><div class="ov" id="ov"></div><div id="toast"></div><div id="tp"></div>
 <script>
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const Y=new Date().getFullYear(),TODAY=new Date().toISOString().slice(0,10),MN=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
@@ -196,7 +280,7 @@ const SEED=[
 ].map((a,i)=>({id:i+1,title:a[0],year:a[1],dur:a[2],dir:a[3],genres:a[4],cast:a[5],date:a[6],rating:a[7],fav:!!a[8],seen:!!a[6],poster:''}));
 let S={name:'Cinéfilo',goal:50,movies:[]};
 /* S se carga al iniciar sesión (ver bloque CUENTAS) */
-const save=()=>{if(!USER)return;try{localStorage.setItem('cvault_'+USER.id,JSON.stringify(S))}catch(e){}pushCloud()};
+const save=()=>{if(!USER||VW)return;try{localStorage.setItem('cvault_'+USER.id,JSON.stringify(S))}catch(e){}pushCloud()};
 let view='home',communityTab='cal',communityProfile=false,calM=new Date().getMonth(),calY=Y,F={c:{q:'',g:'',s:'date'},w:{q:'',g:'',d:''}},charts=[];
 const NAV=[['home','⌂','Inicio'],['search','⌕','Buscar'],['coll','▣','Mi colección'],['diary','✎','Diario'],['cal','▦','Calendario'],['stats','◔','Estadísticas'],['favs','♥','Favoritos'],['watch','✚','Watchlist'],['community','◎','Comunidad'],['set','⚙','Configuración']];
 const seen=()=>S.movies.filter(m=>m.seen),yr=()=>views().filter(m=>m.date&&m.date.startsWith(Y)),byDate=a=>[...a].sort((x,y)=>(y.date||'').localeCompare(x.date||''));
@@ -206,9 +290,17 @@ const genres=()=>[...new Set(S.movies.flatMap(m=>m.genres))].sort();
 function P(m){const h=Math.abs([...m.title].reduce((a,c)=>a*31+c.charCodeAt(0)|0,7))%360;return `<div class="poster${m.poster?' has':''}" style="--h:${h}">${m.poster?`<img src="${esc(m.poster)}" alt="" onerror="this.parentNode.classList.remove('has');this.remove()">`:''}<b>${esc(m.title)}</b><i>${m.year}</i></div>`}
 function stars(r,id,ri){let s='';for(let i=1;i<=5;i++)s+=`<span class="st ${r>=i?'f':r>=i-.5?'hf':''}" data-i="${i}">★</span>`;return `<span class="stw" ${id?`onclick="rate(${id},event${ri!=null?','+ri:''})"`:''}>${s}</span>`}
 function card(m,sub){return `<div class="m" onclick="openM(${m.id})">${m.fav?'<div class="heart">♥</div>':''}${P(m)}<div class="t">${esc(m.title)}</div><div class="s">${m.year} · ${m._rw?'↻ ':''}${sub||fmtD(m.date)}</div>${m.seen?stars(m.rating):''}</div>`}
-function side(){$('#side').innerHTML=`<div class="logo">Cine<i>Vault</i></div>`+NAV.map(n=>`<button class="nav ${view==n[0]?'on':''}" onclick="go('${n[0]}')"><span>${n[1]}</span><b>${n[2]}</b></button>`).join('')+`<button class="nav out" onclick="logout()"><span>⏻</span><b>Cerrar sesión</b></button><button class="nav col" onclick="document.body.classList.toggle('c')"><span>⇔</span><b>Contraer</b></button>`}
-function go(v){SEL.on=false;SEL.ids.clear();view=v;render();scrollTo(0,0)}
-function render(){document.body.dataset.view=view;side();charts.forEach(c=>c.destroy());charts=[];const V={home,search,coll,diary,cal,stats,favs,watch,community,set}[view];$('#app').innerHTML=`<section>${V()}</section>`;if(view=='stats'||(view==='community'&&communityProfile&&communityTab==='stats'))drawCharts();if(view=='coll')gridC();if(view=='watch')listW()}
+const MQ=window.matchMedia('(max-width:760px)'),MOB=()=>MQ.matches,MAIN=['home','search','coll','cal','community'];let moreOpen=false;
+if(MQ.addEventListener)MQ.addEventListener('change',()=>{if(typeof USER!=='undefined'&&USER)render()});
+function side(){
+if(!MOB()){moreOpen=false;$('#mtop').innerHTML='';$('#more').innerHTML='';
+$('#side').innerHTML=`<div class="logo">Cine<i>Vault</i></div>`+NAV.map(n=>`<button class="nav ${view==n[0]?'on':''}" onclick="go('${n[0]}')"><span>${n[1]}</span><b>${n[2]}</b></button>`).join('')+`<button class="nav out" onclick="logout()"><span>⏻</span><b>Cerrar sesión</b></button><button class="nav col" onclick="document.body.classList.toggle('c')"><span>⇔</span><b>Contraer</b></button>`;return}
+const ico=Object.fromEntries(NAV.map(n=>[n[0],n]));
+$('#side').innerHTML=MAIN.map(k=>`<button class="nav ${view==k?'on':''}" onclick="go('${k}')"><span>${ico[k][1]}</span><b>${ico[k][2]}</b></button>`).join('')+`<button class="nav ${!MAIN.includes(view)||moreOpen?'on':''}" onclick="moreOpen=!moreOpen;side()"><span>☰</span><b>Más</b></button>`;
+$('#more').innerHTML=moreOpen?`<div class="more-bg" onclick="moreOpen=false;side()"></div><div class="more-sheet">${NAV.filter(n=>!MAIN.includes(n[0])).map(n=>`<button class="${view==n[0]?'on':''}" onclick="moreOpen=false;go('${n[0]}')"><span>${n[1]}</span>${n[2]}</button>`).join('')}<button class="out" onclick="moreOpen=false;logout()"><span>⏻</span>Cerrar sesión</button></div>`:'';
+$('#mtop').innerHTML=`<div class="logo">Cine<i>Vault</i></div><button class="mavatar" onclick="go('set')">${esc(((typeof USER!=='undefined'&&USER&&USER.username)||'?').slice(0,1).toUpperCase())}</button>`}
+function go(v){if(VW){S=ME;ME=null;VW=null}communityProfile=false;moreOpen=false;SEL.on=false;SEL.ids.clear();view=v;render();scrollTo(0,0)}
+function render(){document.body.dataset.view=view;side();charts.forEach(c=>c.destroy());charts=[];const V={home,search,coll,diary,cal,stats,favs,watch,community,set}[view];$('#app').innerHTML=`<section>${V()}</section>`;if(view=='stats'||(view==='community'&&communityProfile&&communityTab==='stats'))drawCharts();if(view=='coll')gridC();if(view=='watch'||(view==='community'&&communityProfile&&communityTab==='watch'))listW()}
 /* ===== INICIO ===== */
 function home(){const y=yr(),h=y.reduce((s,m)=>s+m.dur,0),best=[...y].sort((a,b)=>b.rating-a.rating)[0],last=byDate(seen())[0],pc=Math.min(100,y.length/S.goal*100);
 return `<div class="top"><div><p class="mu">${new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</p><h1>Bienvenido, ${esc(S.name)}</h1></div><button class="btn" onclick="addM()">+ Registrar película</button></div>
@@ -220,13 +312,15 @@ function coll(){const f=F.c;return `<div class="top"><h1>Mi colección</h1><div 
 function gridC(){const f=F.c,q=f.q.toLowerCase();let a=seen().filter(m=>(!f.g||m.genres.includes(f.g))&&(m.title+m.dir+m.cast.join()).toLowerCase().includes(q));
 a=f.s=='rating'?a.sort((x,y)=>y.rating-x.rating):f.s=='title'?a.sort((x,y)=>x.title.localeCompare(y.title)):f.s=='year'?a.sort((x,y)=>y.year-x.year):byDate(a);VIS=a;$('#g').innerHTML=a.map(m=>SEL.on?selCard(m):card(m)).join('')||'<p class="empty">Sin resultados.</p>';$('#selbar').innerHTML=selBar()}
 /* ===== DIARIO ===== */
-function diary(){const a=byDate(views());return `<div class="top"><h1>Diario cinematográfico</h1><button class="btn" onclick="addM()">+ Registrar</button></div><div class="card">${a.map(m=>`<div class="row" onclick="openM(${m.id})"><span class="mu" style="width:100px">${fmtD(m.date)}</span>${P(m)}<div><b>${esc(m.title)}</b> <span class="mu">${m.year}</span>${m._rw?' <span class="chip">↻ Rewatch</span>':''}<br><small class="mu">${esc(m.dir)}</small>${m.review?`<br><small style="opacity:.85">“${esc(m.review.slice(0,140))}${m.review.length>140?'…':''}”</small>`:''}</div><div class="a">${m.fav?'<span style="color:var(--red)">♥</span>':''}${stars(m.rating)}</div></div>`).join('')||'<p class="empty">Diario vacío.</p>'}</div>`}
+function diary(){const a=byDate(views());return `<div class="top"><h1>Diario cinematográfico</h1>${VW?'':'<button class="btn" onclick="addM()">+ Registrar</button>'}</div><div class="card">${a.map(m=>`<div class="row" onclick="openM(${m.id})"><span class="mu dd" style="width:100px">${fmtD(m.date)}</span>${P(m)}<div><b>${esc(m.title)}</b> <span class="mu">${m.year}</span>${m._rw?' <span class="chip">↻ Rewatch</span>':''}<br><small class="mu">${esc(m.dir)}</small>${m.review?`<br><small style="opacity:.85">“${esc(m.review.slice(0,140))}${m.review.length>140?'…':''}”</small>`:''}</div><div class="a">${m.fav?'<span style="color:var(--red)">♥</span>':''}${stars(m.rating)}</div></div>`).join('')||'<p class="empty">Diario vacío.</p>'}</div>`}
 /* ===== CALENDARIO ===== */
-function cal(){const first=(new Date(calY,calM,1).getDay()+6)%7,days=new Date(calY,calM+1,0).getDate();let c=['L','M','X','J','V','S','D'].map(d=>`<div class="h">${d}</div>`).join('')+'<div class="d e"></div>'.repeat(first);
-for(let d=1;d<=days;d++){const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`,ms=views().filter(m=>m.date==ds),m=ms[0];
+function cal(){const mob=MOB(),first=(new Date(calY,calM,1).getDay()+6)%7,days=new Date(calY,calM+1,0).getDate();let c=['L','M','X','J','V','S','D'].map(d=>`<div class="h">${d}</div>`).join('')+'<div class="d e"></div>'.repeat(first);
+for(let d=1;d<=days;d++){const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`,ms=views().filter(m=>m.date==ds);
+if(mob){c+=`<div class="d ${ds==TODAY?'td':''} ${ms.length?'hasm':''}" ${ms.length?`onclick="dayM('${ds}')"`:''}><span class="dn">${d}</span>${ms.length?`<div class="mp">${P(ms[0])}${ms.length>1?`<span class="bdg">+${ms.length-1}</span>`:''}</div>`:''}</div>`;continue}
 c+=`<div class="d ${ds==TODAY?'td':''}"><span class="dn">${d}</span>${ms.length?`<div class="ds">${ms.map(x=>`<div class="cp" onclick="openM(${x.id})" onmouseenter="tip(event,${x.id},${x._rw||0})" onmouseleave="tip()">${x._rw?'<span class="bdg" style="bottom:auto;top:3px;left:3px;padding:0 6px">↻</span>':''}${P(x)}</div>`).join('')}</div>`:''}</div>`}
-return `<div class="top"><h1>Calendario</h1><div class="tools" style="margin:0"><button class="btn g" onclick="mv(-12)">«</button><button class="btn g" onclick="mv(-1)">‹</button><b style="align-self:center;min-width:140px;text-align:center;font-family:var(--fh)">${MN[calM]} ${calY}</b><button class="btn g" onclick="mv(1)">›</button><button class="btn g" onclick="mv(12)">»</button></div></div><div class="cal" style="grid-template-rows:auto repeat(${Math.ceil((first+days)/7)},minmax(0,1fr))">${c}</div>`}
-function dayM(ds){const a=seen().filter(m=>m.date==ds);mod(`<div class="md" style="grid-template-columns:1fr"><button class="x" onclick="closeM()">×</button><h2 style="margin:0">${fmtD(ds)} · ${a.length} películas</h2><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">${a.map(m=>card(m,m.dur+' min')).join('')}</div></div>`)}
+const mk=`${calY}-${String(calM+1).padStart(2,'0')}`,list=mob?byDate(views().filter(m=>m.date&&m.date.startsWith(mk))):[];
+return `<div class="top"><h1>Calendario</h1><div class="tools" style="margin:0"><button class="btn g" onclick="mv(-12)">«</button><button class="btn g" onclick="mv(-1)">‹</button><b style="align-self:center;min-width:140px;text-align:center;font-family:var(--fh)">${MN[calM]} ${calY}</b><button class="btn g" onclick="mv(1)">›</button><button class="btn g" onclick="mv(12)">»</button></div></div><div class="cal${mob?' mob':''}" ${mob?'':`style="grid-template-rows:auto repeat(${Math.ceil((first+days)/7)},minmax(0,1fr))"`}>${c}</div>${mob?`<h2>Este mes · ${list.length}</h2><div class="card">${list.map(m=>`<div class="row" onclick="openM(${m.id})"><span class="mu" style="width:48px;font-size:12px">${fmtD(m.date).replace(/ \d{4}$/,'')}</span>${P(m)}<div style="min-width:0"><b>${esc(m.title)}</b>${m._rw?' <span class="chip">↻</span>':''}<br><small class="mu">${m.year}</small></div><div class="a">${stars(m.rating)}</div></div>`).join('')||'<p class="empty">Sin películas este mes.</p>'}</div>`:''}`}
+function dayM(ds){const a=views().filter(m=>m.date==ds);mod(`<div class="md" style="grid-template-columns:1fr"><button class="x" onclick="closeM()">×</button><h2 style="margin:0">${fmtD(ds)} · ${a.length} películas</h2><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">${a.map(m=>card(m,m.dur+' min')).join('')}</div></div>`)}
 function tip(e,id,ri){const t=$('#tp');if(!id){t.style.display='none';return}const m=get(id),w=ri?m.rw[ri-1]:m,r=e.currentTarget.getBoundingClientRect();t.innerHTML=`<b>${esc(m.title)}</b><br>${stars(w.rating)}<br><small class="mu">${fmtD(w.date)}${ri?' · ↻ rewatch':''}</small>`;t.style.display='block';t.style.left=Math.min(innerWidth-180,Math.max(4,r.left+r.width/2-85))+'px';t.style.top=Math.max(4,r.top-t.offsetHeight-6)+'px'}
 function posterM(id){const m=get(id);mod(`<div class="md" style="grid-template-columns:1fr;max-width:560px"><button class="x" onclick="openM(${id})">×</button><h2 style="margin:0">Póster de ${esc(m.title)}</h2><div class="f"><label>URL de la imagen<span style="display:flex;gap:8px"><input id="pu" style="flex:1" value="${esc(m.poster)}"><button class="btn" onclick="setP(${id},$('#pu').value.trim())">Guardar</button></span></label><label>Subir desde tu equipo<input type="file" accept="image/*" onchange="upP(${id},this.files[0])"></label>${tk()?`<label>Buscar en TMDB<span style="display:flex;gap:8px"><input id="pq" style="flex:1" value="${esc(m.title)}" onkeydown="if(event.key=='Enter')pTM(${id})"><button class="btn g" onclick="pTM(${id})">Buscar</button></span></label><div id="pr" class="strip"></div>`:'<p class="mu" style="font-size:13px">Con la API key de TMDB también podrás elegir entre sus pósteres.</p>'}<button class="btn r" onclick="setP(${id},'')">Quitar póster</button></div></div>`)}
 function setP(id,u){get(id).poster=u;save();render();openM(id);toast(u?'Póster actualizado':'Póster quitado')}
@@ -353,16 +447,76 @@ function gcControls(){const c=(S.chartTheme||{}).genreChart||{};return `<label c
 const favL=()=>{const o=S.favOrder||[];return S.movies.filter(m=>m.fav).sort((a,b)=>{const x=o.indexOf(a.id),y=o.indexOf(b.id);return(x<0?1e9:x)-(y<0?1e9:y)})};
 const favCt=m=>`<div class="tools" style="justify-content:center;margin:6px 0 0;gap:6px"><button class="btn g" style="padding:2px 12px" onclick="favMv(${m.id},-1)">‹</button><button class="btn g" style="padding:2px 12px" onclick="favMv(${m.id},1)">›</button></div>`;
 function favs(){const f=favL(),best=[...seen()].filter(m=>m.rating>=4.5).sort((a,b)=>b.rating-a.rating).slice(0,12);
-return `<div class="top"><div><h1>Mis favoritas</h1><p class="mu">Tu selección personal. Todas las películas mantienen el mismo formato.</p></div><button class="btn" onclick="favPick()">+ Elegir favoritas</button></div>${f.length?`<div class="fav-grid">${f.map((m,i)=>`<div class="fav-item"><span class="rank">${i+1}</span>${card(m)}<div class="fav-controls"><button class="btn g" title="Mover arriba" onclick="favMv(${m.id},-1)">‹</button><button class="btn g" title="Mover abajo" onclick="favMv(${m.id},1)">›</button></div></div>`).join('')}</div>`:'<p class="empty">Aún no has elegido favoritas.</p>'}${best.length?`<h2>Mejor valoradas (por estrellas)</h2><div class="fav-grid fav-best-grid">${best.map((m,i)=>`<div class="fav-item"><span class="rank">${i+1}</span>${card(m)}</div>`).join('')}</div>`:''}`}
+return `<div class="top"><div><h1>Mis favoritas</h1><p class="mu">Tu selección personal. Todas las películas mantienen el mismo formato.</p></div>${VW?'':'<button class="btn" onclick="favPick()">+ Elegir favoritas</button>'}</div>${f.length?`<div class="fav-grid">${f.map((m,i)=>`<div class="fav-item"><span class="rank">${i+1}</span>${card(m)}${VW?'':`<div class="fav-controls"><button class="btn g" title="Mover arriba" onclick="favMv(${m.id},-1)">‹</button><button class="btn g" title="Mover abajo" onclick="favMv(${m.id},1)">›</button></div>`}</div>`).join('')}</div>`:'<p class="empty">Aún no has elegido favoritas.</p>'}${best.length?`<h2>Mejor valoradas (por estrellas)</h2><div class="fav-grid fav-best-grid">${best.map((m,i)=>`<div class="fav-item"><span class="rank">${i+1}</span>${card(m)}</div>`).join('')}</div>`:''}`}
 /* ===== WATCHLIST ===== */
-function watch(){const f=F.w;return `<div class="top"><h1>Watchlist</h1><button class="btn" onclick="addM(true)">+ Añadir pendiente</button></div><div class="tools"><input type="search" placeholder="Buscar por título…" value="${esc(f.q)}" oninput="F.w.q=this.value;listW()"><select onchange="F.w.g=this.value;listW()"><option value="">Todos los géneros</option>${genres().map(g=>`<option ${f.g==g?'selected':''}>${g}</option>`).join('')}</select><select onchange="F.w.d=this.value;listW()"><option value="">Cualquier duración</option><option value="s" ${f.d=='s'?'selected':''}>Menos de 100 min</option><option value="m" ${f.d=='m'?'selected':''}>100–150 min</option><option value="l" ${f.d=='l'?'selected':''}>Más de 150 min</option></select></div><div class="card" id="wl"></div>`}
+function watch(){const f=F.w;return `<div class="top"><h1>Watchlist</h1>${VW?'':'<button class="btn" onclick="addM(true)">+ Añadir pendiente</button>'}</div><div class="tools"><input type="search" placeholder="Buscar por título…" value="${esc(f.q)}" oninput="F.w.q=this.value;listW()"><select onchange="F.w.g=this.value;listW()"><option value="">Todos los géneros</option>${genres().map(g=>`<option ${f.g==g?'selected':''}>${g}</option>`).join('')}</select><select onchange="F.w.d=this.value;listW()"><option value="">Cualquier duración</option><option value="s" ${f.d=='s'?'selected':''}>Menos de 100 min</option><option value="m" ${f.d=='m'?'selected':''}>100–150 min</option><option value="l" ${f.d=='l'?'selected':''}>Más de 150 min</option></select></div><div class="card" id="wl"></div>`}
 function listW(){const f=F.w;const a=S.movies.filter(m=>!m.seen&&(!f.g||m.genres.includes(f.g))&&m.title.toLowerCase().includes(f.q.toLowerCase())&&(!f.d||(f.d=='s'?m.dur<100:f.d=='m'?m.dur>=100&&m.dur<=150:m.dur>150)));
-$('#wl').innerHTML=a.length?`<div class="watch-grid">${a.map(m=>`<div class="watch-item"><div class="watch-poster" onclick="openM(${m.id})">${P(m)}</div><div class="watch-info"><b title="${esc(m.title)}">${esc(m.title)}</b><span>${m.year||'—'} · ${m.dur||'—'} min</span><small>${esc(m.genres.join(', '))}</small><div class="watch-actions"><button class="btn" onclick="event.stopPropagation();seenM(${m.id})">✓ Vista</button><button class="btn r" onclick="event.stopPropagation();del(${m.id})">✕</button></div></div></div>`).join('')}</div>`:'<p class="empty">Nada pendiente. ¡Añade algo!</p>'}
-/* ===== COMUNIDAD (preparada para futuras cuentas) ===== */
-function community(){const movies=seen(),profile=communityProfile;return profile?communityPublicProfile():`<div class="top"><div><h1>Comunidad</h1><p class="mu">Descubre perfiles y explora sus diarios cinematográficos.</p></div><span class="chip">Vista previa · sin cuentas todavía</span></div>
-<div class="community-grid"><article class="community-user card" onclick="communityProfile=true;communityTab='cal';render()"><div class="community-avatar">${esc((S.name||'C').trim().slice(0,1).toUpperCase())}</div><div class="community-user-info"><h2>${esc(S.name||'Cinéfilo')}</h2><p class="mu">Tu perfil · Vista previa pública</p><div class="community-stats"><span><b>${movies.length}</b> películas</span><span><b>${favL().length}</b> favoritas</span><span><b>${S.movies.filter(m=>!m.seen).length}</b> pendientes</span></div></div><button class="btn" onclick="event.stopPropagation();communityProfile=true;communityTab='cal';render()">Ver perfil</button></article></div>
-<div class="community-empty card"><div class="community-empty-icon">◎</div><h2>La comunidad está tomando forma</h2><p class="mu">Aquí aparecerán los perfiles de los demás usuarios cuando incorporemos el registro, el inicio de sesión y una base de datos compartida.</p><div class="community-features"><span>▦ Calendario</span><span>✎ Diario</span><span>◔ Estadísticas</span><span>♥ Favoritos</span><span>✚ Watchlist</span></div></div>`}
-function communityPublicProfile(){const tabs=[['cal','Calendario'],['diary','Diario'],['stats','Estadísticas'],['favs','Favoritos'],['watch','Watchlist']];let body='';if(communityTab==='cal')body=cal();else if(communityTab==='diary')body=diary();else if(communityTab==='stats')body=stats();else if(communityTab==='favs')body=favs();else body=watch();return `<div class="top"><div><button class="btn g" onclick="communityProfile=false;render()">← Comunidad</button><h1 style="margin-top:12px">${esc(S.name||'Cinéfilo')}</h1><p class="mu">Perfil público · Vista previa de tu cuenta</p></div><div class="community-avatar large">${esc((S.name||'C').trim().slice(0,1).toUpperCase())}</div></div><div class="community-tabs">${tabs.map(t=>`<button class="btn ${communityTab===t[0]?'':'g'}" onclick="communityTab='${t[0]}';render()">${t[1]}</button>`).join('')}</div><div class="community-profile-content">${body}</div>`}
+$('#wl').innerHTML=a.length?`<div class="watch-grid">${a.map(m=>`<div class="watch-item"><div class="watch-poster" onclick="openM(${m.id})">${P(m)}</div><div class="watch-info"><b title="${esc(m.title)}">${esc(m.title)}</b><span>${m.year||'—'} · ${m.dur||'—'} min</span><small>${esc(m.genres.join(', '))}</small><div class="watch-actions">${VW?`<button class="btn" onclick="event.stopPropagation();addFromView(${m.id})">+ A mi lista</button>`:`<button class="btn" onclick="event.stopPropagation();seenM(${m.id})">✓ Vista</button><button class="btn r" onclick="event.stopPropagation();del(${m.id})">✕</button>`}</div></div></div>`).join('')}</div>`:'<p class="empty">Nada pendiente. ¡Añade algo!</p>'}
+/* ===== COMUNIDAD (red social) ===== */
+let VW=null,ME=null,CM={users:[],follows:[],loaded:false,loading:false,q:'',tab:'all',err:''};
+const mine=()=>ME||S;
+const hue=s=>Math.abs([...String(s)].reduce((a,c)=>a*31+c.charCodeAt(0)|0,7))%360;
+const avatar=(n,big)=>`<div class="community-avatar${big?' large':''}" style="background:linear-gradient(135deg,hsl(${hue(n)} 60% 52%),hsl(${(hue(n)+50)%360} 60% 36%))">${esc(String(n||'?').trim().slice(0,1).toUpperCase())}</div>`;
+/* --- datos de otros usuarios: siempre se sanean antes de pintarlos --- */
+function cleanData(d){d=d&&typeof d==='object'?d:{};const str=v=>typeof v==='string'?v:'',num=v=>Number.isFinite(+v)?+v:0,dt=v=>/^\d{4}-\d{2}-\d{2}$/.test(str(v))?v:null,arr=a=>Array.isArray(a)?a.map(str).filter(Boolean):[],rt=v=>Math.min(5,Math.max(0,num(v))),ps=v=>/^(https?:\/\/|data:image\/)/i.test(str(v))?v:'';
+const o={name:str(d.name)||'Cinéfilo',goal:Math.max(1,num(d.goal)||50),chartTheme:d.chartTheme&&typeof d.chartTheme==='object'?d.chartTheme:{},favOrder:(Array.isArray(d.favOrder)?d.favOrder:[]).map(num)};
+o.movies=(Array.isArray(d.movies)?d.movies:[]).map(m=>({id:num(m.id),title:str(m.title),year:num(m.year)||'',dur:num(m.dur),dir:str(m.dir),genres:arr(m.genres),cast:arr(m.cast),date:dt(m.date),rating:rt(m.rating),fav:!!m.fav,seen:!!m.seen,poster:ps(m.poster),desc:str(m.desc),review:str(m.review),rw:(Array.isArray(m.rw)?m.rw:[]).filter(r=>r&&dt(r.date)).map(r=>({date:r.date,rating:rt(r.rating),review:str(r.review)}))})).filter(m=>m.title);return o}
+function cleanSummary(s){s=s&&typeof s==='object'?s:{};const n=v=>Number.isFinite(+v)?+v:0,t=v=>typeof v==='string'?v:'',p=v=>/^https?:\/\//i.test(t(v))?v:'';
+return{seen:n(s.seen),favs:n(s.favs),pending:n(s.pending),hours:n(s.hours),avg:n(s.avg),recent:(Array.isArray(s.recent)?s.recent:[]).slice(0,8).map(r=>({t:t(r.t),y:n(r.y)||'',p:p(r.p),d:/^\d{4}-\d{2}-\d{2}$/.test(t(r.d))?r.d:'',r:n(r.r)})),favTop:(Array.isArray(s.favTop)?s.favTop:[]).slice(0,6).map(r=>({t:t(r.t),y:n(r.y)||'',p:p(r.p)}))}}
+/* resumen público ligero que se guarda en profiles.summary */
+function mkSummary(d){const mv=d.movies||[],sn=mv.filter(m=>m.seen),rated=sn.filter(m=>m.rating>0),p=m=>/^https?:\/\//i.test(m.poster||'')?m.poster:'',o=d.favOrder||[],
+fv=mv.filter(m=>m.fav).sort((a,b)=>{const x=o.indexOf(a.id),y=o.indexOf(b.id);return(x<0?1e9:x)-(y<0?1e9:y)});
+return{seen:sn.length,favs:fv.length,pending:mv.length-sn.length,hours:Math.round(sn.reduce((s,m)=>s+(m.dur||0),0)/60),avg:rated.length?+(rated.reduce((s,m)=>s+m.rating,0)/rated.length).toFixed(2):0,
+recent:[...sn].filter(m=>m.date).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8).map(m=>({t:m.title,y:m.year,p:p(m),d:m.date,r:m.rating||0})),favTop:fv.slice(0,6).map(m=>({t:m.title,y:m.year,p:p(m)}))}}
+async function loadCommunity(){if(CM.loading)return;CM.loading=true;CM.err='';
+try{if(sb&&USER&&!USER.local){const[p,f]=await Promise.all([sb.from('profiles').select('id,username,summary,is_public').order('username').limit(500),sb.from('follows').select('follower_id,followee_id').limit(10000)]);
+if(p.error)throw p.error;if(f.error)throw f.error;
+CM.users=(p.data||[]).filter(u=>u.is_public!==false||u.id===USER.id).map(u=>({id:u.id,username:String(u.username||'?'),s:u.id===USER.id?cleanSummary(mkSummary(mine())):cleanSummary(u.summary)}));
+CM.follows=(f.data||[]).map(x=>[x.follower_id,x.followee_id])}
+else{CM.users=[{id:USER.id,username:USER.username||'Yo',s:cleanSummary(mkSummary(mine()))}];CM.follows=[]}
+CM.loaded=true}catch(e){CM.err=authErr(e)}
+CM.loading=false;if(view==='community'&&!communityProfile)render()}
+function cmRefresh(){CM.loaded=false;CM.err='';render()}
+async function toggleFollow(i,ev){if(ev)ev.stopPropagation();const u=CM.users[i];if(!u)return;if(!sb||USER.local)return toast('Seguir a otros usuarios necesita Supabase');
+const has=CM.follows.some(f=>f[0]===USER.id&&f[1]===u.id);
+try{if(has){const{error}=await sb.from('follows').delete().eq('follower_id',USER.id).eq('followee_id',u.id);if(error)throw error;CM.follows=CM.follows.filter(f=>!(f[0]===USER.id&&f[1]===u.id))}
+else{const{error}=await sb.from('follows').insert({follower_id:USER.id,followee_id:u.id});if(error)throw error;CM.follows.push([USER.id,u.id])}}catch(e){toast(authErr(e))}
+if(view==='community')render()}
+async function openProfile(i){const u=CM.users[i];if(!u)return;let data;
+if(u.id===USER.id)data=mine();else{toast('Cargando perfil…');const{data:r,error}=await sb.from('cinevault_data').select('data').eq('user_id',u.id).maybeSingle();if(error)return toast(authErr(error));if(!r||!r.data)return toast('Este perfil no tiene datos públicos');data=cleanData(r.data)}
+if(!VW)ME=S;VW={...u,i};S=data;communityTab='cal';communityProfile=true;ST={y:Y,m:-1};calM=new Date().getMonth();calY=Y;SEL.on=false;SEL.ids.clear();closeM();render();scrollTo(0,0)}
+function closeProfile(){if(VW){S=ME;ME=null;VW=null}communityProfile=false;render()}
+function viewM(id){const m=get(id);if(!m)return;const own=VW&&USER&&VW.id===USER.id;
+mod(`<div class="md"><button class="x" onclick="closeM()">×</button><div>${P(m)}</div><div><h2 style="margin:0">${esc(m.title)}</h2><p class="mu">${m.year||'—'} · ${m.dur||'—'} min · ${esc(m.dir||'—')}</p><div style="margin:10px 0">${m.genres.map(g=>`<span class="chip">${esc(g)}</span>`).join('')}</div>${m.desc?`<p style="font-size:13px;color:var(--mu);margin:8px 0">${esc(m.desc)}</p>`:''}<p class="mu" style="font-size:13px">Reparto: ${esc(m.cast.join(', ')||'—')}</p>
+<p style="margin:12px 0"><span class="chip" style="color:${m.seen?'#7ed9a0':'var(--mu)'}">${m.seen?'Vista · '+fmtD(m.date):'Pendiente'}</span>${m.fav?'<span class="chip" style="color:var(--red)">♥ Favorita</span>':''}</p>
+${m.seen?`<div class="big">${stars(m.rating)}</div>${m.review?`<p style="margin-top:10px;font-size:14px">“${esc(m.review)}”</p>`:''}${(m.rw||[]).map((r,i)=>`<p class="mu" style="font-size:13px;margin-top:8px">↻ Rewatch ${i+1} · ${fmtD(r.date)} ${stars(r.rating)}${r.review?`<br>“${esc(r.review)}”`:''}</p>`).join('')}`:''}
+${own?'':`<div class="tools" style="margin-top:16px"><button class="btn" onclick="addFromView(${m.id})">+ A mi watchlist</button></div>`}</div></div>`)}
+function addFromView(id){const o=get(id),me=ME;if(!o||!me)return;if(me.movies.some(x=>x.title.toLowerCase()==o.title.toLowerCase()&&x.year==o.year))return toast('Ya está en tu colección');
+me.movies.push({id:++nid,title:o.title,year:o.year,dur:o.dur,dir:o.dir,genres:[...o.genres],cast:[...o.cast],poster:o.poster,desc:o.desc,seen:false,date:null,rating:0,fav:false});
+try{localStorage.setItem('cvault_'+USER.id,JSON.stringify(me))}catch(e){}pushCloud();closeM();toast('Añadida a tu watchlist')}
+const cuPoster=r=>`<div class="cu-p">${r.p?`<img src="${esc(r.p)}" alt="" loading="lazy" onerror="this.remove()">`:`<span>${esc(r.t)}</span>`}</div>`;
+function userCard(u,me,fol,fc,gc){const s=u.s;
+return `<article class="community-user card" onclick="openProfile(${u.i})"><div class="cu-head">${avatar(u.username)}<div class="community-user-info"><h2>@${esc(u.username)}</h2><p class="mu">${fc(u.id)} seguidores · ${gc(u.id)} siguiendo</p></div>${u.id===me?'<span class="chip">Tú</span>':`<button class="btn ${fol.has(u.id)?'g':''}" onclick="toggleFollow(${u.i},event)">${fol.has(u.id)?'Siguiendo':'Seguir'}</button>`}</div>
+<div class="community-stats"><span><b>${s.seen}</b> vistas</span><span><b>${s.favs}</b> favoritas</span><span><b>${s.hours}</b> h</span>${s.avg?`<span><b>${s.avg.toFixed(1)}</b> ★ media</span>`:''}</div>
+${s.recent.length?`<div class="cu-strip">${s.recent.slice(0,5).map(cuPoster).join('')}</div>`:'<p class="mu" style="font-size:12px">Aún sin películas registradas</p>'}</article>`}
+function cmBody(){
+if(CM.err)return `<div class="community-empty card"><div class="community-empty-icon">!</div><h2>No se pudo cargar la comunidad</h2><p class="mu">${esc(CM.err)}</p><p class="mu" style="font-size:12px">Si es la primera vez, ejecuta supabase_comunidad.sql en el SQL Editor de Supabase.</p><button class="btn" onclick="cmRefresh()">Reintentar</button></div>`;
+if(!CM.loaded)return '<p class="empty">Cargando comunidad…</p>';
+const me=USER.id,fol=new Set(CM.follows.filter(f=>f[0]===me).map(f=>f[1])),fc=id=>CM.follows.filter(f=>f[1]===id).length,gc=id=>CM.follows.filter(f=>f[0]===id).length,q=CM.q.trim().toLowerCase();
+let us=CM.users.map((u,i)=>({...u,i}));if(q)us=us.filter(u=>u.username.toLowerCase().includes(q));
+if(CM.tab==='fol')us=us.filter(u=>fol.has(u.id));
+if(CM.tab==='act'){const src=us.filter(u=>u.id!==me&&(fol.size?fol.has(u.id):true)),it=src.flatMap(u=>u.s.recent.map(r=>({u,r}))).filter(x=>x.r.d).sort((a,b)=>b.r.d.localeCompare(a.r.d)).slice(0,40);
+return (fol.size?'':'<p class="mu" style="margin-bottom:12px;font-size:13px">Aún no sigues a nadie: te enseño la actividad de toda la comunidad.</p>')+(it.length?`<div class="feed">${it.map(({u,r})=>`<div class="card feed-item" onclick="openProfile(${u.i})">${cuPoster(r)}<div style="min-width:0"><p><b>@${esc(u.username)}</b> vio <b>${esc(r.t)}</b>${r.y?' ('+r.y+')':''}</p><div>${r.r?stars(r.r):''}</div><small class="mu">${fmtD(r.d)}</small></div></div>`).join('')}</div>`:'<p class="empty">Todavía no hay actividad.</p>')}
+return us.length?`<div class="community-grid">${us.map(u=>userCard(u,me,fol,fc,gc)).join('')}</div>`:`<p class="empty">${CM.tab==='fol'?'No sigues a nadie todavía. Ve a «Descubrir» y pulsa Seguir.':'No hay usuarios que coincidan.'}</p>`}
+function community(){if(communityProfile&&VW)return communityPublicProfile();
+if(!CM.loaded&&!CM.loading&&!CM.err)loadCommunity();
+return `<div class="top"><div><h1>Comunidad</h1><p class="mu">${sb&&!USER.local?'Descubre a otros cinéfilos, síguelos y mira sus diarios.':'Modo local: conecta Supabase para ver a otros usuarios.'}</p></div><button class="btn g" onclick="cmRefresh()">↻ Actualizar</button></div>
+<div class="cm-bar"><div class="cm-tabs">${[['all','Descubrir'],['fol','Siguiendo'],['act','Actividad']].map(t=>`<button class="${CM.tab===t[0]?'on':''}" onclick="CM.tab='${t[0]}';render()">${t[1]}</button>`).join('')}</div><input type="search" placeholder="Buscar usuario…" value="${esc(CM.q)}" oninput="CM.q=this.value;$('#cml').innerHTML=cmBody()"></div><div id="cml">${cmBody()}</div>`}
+function communityPublicProfile(){const tabs=[['cal','Calendario'],['diary','Diario'],['stats','Estadísticas'],['favs','Favoritos'],['watch','Watchlist']];
+const body=communityTab==='cal'?cal():communityTab==='diary'?diary():communityTab==='stats'?stats():communityTab==='favs'?favs():watch();
+const me=USER.id,u=VW,fol=CM.follows.some(f=>f[0]===me&&f[1]===u.id),fc=CM.follows.filter(f=>f[1]===u.id).length,gc=CM.follows.filter(f=>f[0]===u.id).length,sn=seen(),h=Math.round(sn.reduce((s,m)=>s+(m.dur||0),0)/60);
+return `<div class="top"><div><button class="btn g" onclick="closeProfile()">← Comunidad</button><div class="pf-head">${avatar(u.username,1)}<div><h1>@${esc(u.username)}</h1><p class="mu">${sn.length} vistas · ${favL().length} favoritas · ${h} h<br>${fc} seguidores · ${gc} siguiendo</p></div></div></div>${u.id===me?'<span class="chip">Así te ven los demás</span>':`<button class="btn ${fol?'g':''}" onclick="toggleFollow(${u.i},event)">${fol?'Siguiendo':'Seguir'}</button>`}</div>
+<div class="community-tabs">${tabs.map(t=>`<button class="btn ${communityTab===t[0]?'':'g'}" onclick="communityTab='${t[0]}';render()">${t[1]}</button>`).join('')}</div><div class="community-profile-content">${body}</div>`}
 /* ===== CONFIG ===== */
 function set(){const b=(k,t)=>`<button class="btn g" onclick="expCSV('${k}')">${t}</button>`;return `<div class="top"><h1>Configuración</h1></div>${accountCard()}<div class="card set"><label>Tu nombre<input value="${esc(S.name)}" onchange="S.name=this.value||'Cinéfilo';save();side()"></label><label>Objetivo anual de películas<input type="number" min="1" value="${S.goal}" onchange="S.goal=Math.max(1,+this.value||1);save();toast('Objetivo guardado')"></label></div>
 ${look()}${sizeSettings()}${chartSettings()}<h2>TMDB</h2><div class="card set"><label>API key (v3) o Read Access Token<input type="password" id="tk" value="${esc(S.tmdb||'')}" placeholder="Pégala desde themoviedb.org → Ajustes → API"></label><div class="tools"><button class="btn" onclick="S.tmdb=$('#tk').value.trim();save();toast('Clave guardada')">Guardar</button><button class="btn g" onclick="tmTest()">Probar</button><button class="btn g" onclick="S.tmdb=$('#tk').value.trim();save();enrAll()">Completar pósteres y datos</button></div><small class="mu" id="prog">Con la clave podrás buscar y autocompletar al añadir películas y descargar pósteres.</small></div>
@@ -373,7 +527,7 @@ function exp(){dl('cinevault.json',JSON.stringify(S,null,1),'application/json')}
 const mod=h=>{$('#tp').style.display='none';$('#ov').innerHTML=h;$('#ov').classList.add('on')},closeM=()=>$('#ov').classList.remove('on');
 $('#ov').onclick=e=>{if(e.target.id=='ov')closeM()};document.onkeydown=e=>{if(e.key=='Escape')closeM()};
 const get=id=>S.movies.find(m=>m.id==id),upd=id=>{save();render();if($('#ov').classList.contains('on'))openM(id)};
-function openM(id){const m=get(id);autoEnr(m);mod(`<div class="md"><button class="x" onclick="closeM()">×</button><div>${P(m)}</div><div><h2 style="margin:0">${esc(m.title)}</h2><p class="mu">${m.year} · ${m.dur} min · ${m.dir?lks(m.dir.split(', ')):'—'}</p><div style="margin:10px 0">${m.genres.map(g=>`<span class="chip">${esc(g)}</span>`).join('')}</div>${m.desc?`<p style="font-size:13px;color:var(--mu);margin:8px 0">${esc(m.desc)}</p>`:`<textarea class="rv" placeholder="Sinopsis breve…" onchange="get(${m.id}).desc=this.value;save()"></textarea>`}<p class="mu" style="font-size:13px">Reparto: ${m.cast.length?lks(m.cast):'—'}</p><p style="margin:12px 0"><span class="chip" style="color:${m.seen?'#7ed9a0':'var(--mu)'}">${m.seen?'Vista':'Pendiente'}</span>${m.fav?'<span class="chip" style="color:var(--red)">♥ Favorita</span>':''}</p>
+function openM(id){if(VW)return viewM(id);const m=get(id);autoEnr(m);mod(`<div class="md"><button class="x" onclick="closeM()">×</button><div>${P(m)}</div><div><h2 style="margin:0">${esc(m.title)}</h2><p class="mu">${m.year} · ${m.dur} min · ${m.dir?lks(m.dir.split(', ')):'—'}</p><div style="margin:10px 0">${m.genres.map(g=>`<span class="chip">${esc(g)}</span>`).join('')}</div>${m.desc?`<p style="font-size:13px;color:var(--mu);margin:8px 0">${esc(m.desc)}</p>`:`<textarea class="rv" placeholder="Sinopsis breve…" onchange="get(${m.id}).desc=this.value;save()"></textarea>`}<p class="mu" style="font-size:13px">Reparto: ${m.cast.length?lks(m.cast):'—'}</p><p style="margin:12px 0"><span class="chip" style="color:${m.seen?'#7ed9a0':'var(--mu)'}">${m.seen?'Vista':'Pendiente'}</span>${m.fav?'<span class="chip" style="color:var(--red)">♥ Favorita</span>':''}</p>
 ${m.seen?`<div class="big" title="Clic en la mitad izquierda de la estrella = media estrella">${stars(m.rating,id)}</div><textarea class="rv" placeholder="Escribe tu reseña…" onchange="get(${id}).review=this.value;save();toast('Reseña guardada')">${esc(m.review||'')}</textarea><p class="mu" style="margin:10px 0">Fecha de visionado: <input type="date" value="${m.date||''}" style="background:var(--hv);border:1px solid var(--line);border-radius:8px;padding:6px;color:var(--tx);color-scheme:dark" onchange="get(${id}).date=this.value;upd(${id})"></p><div style="margin:6px 0 12px"><button class="btn g" onclick="rwAdd(${id})">↻ Volver a ver</button>${(m.rw||[]).map((r,i)=>`<div class="rwr"><span class="chip">↻ Rewatch ${i+1}</span><input type="date" value="${r.date}" style="background:var(--hv);border:1px solid var(--line);border-radius:8px;padding:5px;color:var(--tx);color-scheme:dark" onchange="rwD(${id},${i},this.value)">${stars(r.rating,id,i)}<button class="btn r" style="padding:4px 10px" onclick="rwDel(${id},${i})">✕</button><textarea class="rv" placeholder="Reseña de este revisionado…" onchange="get(${id}).rw[${i}].review=this.value;save();toast('Reseña guardada')">${esc(r.review||'')}</textarea></div>`).join('')}</div>`:''}
 <div class="tools" style="margin-top:16px"><button class="btn g" onclick="get(${id}).fav=!get(${id}).fav;upd(${id})">${m.fav?'♥ Quitar favorita':'♡ Favorita'}</button>${m.seen?`<button class="btn g" onclick="Object.assign(get(${id}),{seen:false,date:null,rating:0,rw:[]});upd(${id})">Mover a pendientes</button>`:`<button class="btn" onclick="seenM(${id})">✓ Marcar vista</button>`}<button class="btn g" onclick="posterM(${id})">🖼 Póster</button><button class="btn g" onclick="enr1(${id})">⟳ TMDB</button><button class="btn r" onclick="del(${id})">Eliminar</button></div></div></div>`)}
 function rate(id,e,ri){const t=e.target.closest('.st');if(!t)return;const i=+t.dataset.i,half=e.clientX-t.getBoundingClientRect().left<t.offsetWidth/2,v=half?i-.5:i,m=get(id),o=ri==null?m:m.rw[ri];o.rating=o.rating==v?0:v;upd(id)}
@@ -387,7 +541,7 @@ let tt;function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on
 let CB;function ask(msg,fn,ok='Confirmar'){CB=fn;mod(`<div class="md" style="grid-template-columns:1fr;max-width:420px"><h3>${msg}</h3><div class="tools"><button class="btn r" onclick="CB()">${ok}</button><button class="btn g" onclick="closeM()">Cancelar</button></div></div>`)}
 function dl(n,c,t){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=n;a.click()}
 /* ===== TMDB ===== */
-const tk=()=>(S.tmdb||'').replace(/^Bearer\s+|["'\s]/g,'');
+const tk=()=>((ME||S).tmdb||'').replace(/^Bearer\s+|["'\s]/g,'');
 async function tm(path,q={}){const k=tk();if(!k)throw new Error('Añade tu API key de TMDB en Configuración');const u=new URL('https://api.themoviedb.org/3'+path);Object.entries({language:'es-ES',...q}).forEach(([a,b])=>u.searchParams.set(a,b));const o={};if(k.startsWith('eyJ'))o.headers={Authorization:'Bearer '+k};else u.searchParams.set('api_key',k);let r;try{r=await fetch(u,o)}catch(e){throw new Error('No se pudo conectar con TMDB: tu navegador, red, extensión o la vista previa lo bloquea. Descarga index.html y ábrelo directamente en el navegador.')}if(!r.ok)throw new Error(r.status==401?'Clave rechazada por TMDB (401). Usa la «API Key» v3 (32 caracteres) o el «Token de acceso de lectura» (empieza por eyJ), sin comillas.':'Error TMDB '+r.status);return r.json()}
 const fromTM=d=>({title:d.title,year:+(d.release_date||'').slice(0,4)||'',dur:d.runtime||0,dir:(d.credits?.crew||[]).filter(c=>c.job=='Director').map(c=>c.name).join(', '),genres:(d.genres||[]).map(g=>g.name),cast:(d.credits?.cast||[]).slice(0,15).map(c=>c.name),poster:d.poster_path?'https://image.tmdb.org/t/p/w500'+d.poster_path:'',desc:d.overview||''});
 async function tmFind(t,y){let x=(await tm('/search/movie',{query:t,...(y?{year:y}:{})})).results?.[0];if(!x&&y)x=(await tm('/search/movie',{query:t})).results?.[0];return x?fromTM(await tm('/movie/'+x.id,{append_to_response:'credits'})):null}
@@ -418,7 +572,7 @@ let sb=null,USER=null,pushT,dirty=false,GPOPEN=false;
 try{if(CV_CONFIG.SUPABASE_URL&&CV_CONFIG.SUPABASE_ANON_KEY&&window.supabase)sb=window.supabase.createClient(CV_CONFIG.SUPABASE_URL,CV_CONFIG.SUPABASE_ANON_KEY)}catch(e){console.error(e)}
 /* --- sincronización con la nube --- */
 function pushCloud(){if(!sb||!USER||USER.local)return;dirty=true;clearTimeout(pushT);pushT=setTimeout(flushCloud,1500)}
-async function flushCloud(){if(!dirty||!sb||!USER||USER.local)return;dirty=false;clearTimeout(pushT);const d={...S};delete d.tmdb;const{error}=await sb.from('cinevault_data').upsert({user_id:USER.id,data:d,updated_at:new Date().toISOString()});if(error){dirty=true;console.warn(error);toast('No se pudo sincronizar: '+error.message)}}
+async function flushCloud(){if(!dirty||!sb||!USER||USER.local)return;dirty=false;clearTimeout(pushT);const src=mine(),d={...src};delete d.tmdb;const{error}=await sb.from('cinevault_data').upsert({user_id:USER.id,data:d,updated_at:new Date().toISOString()});if(error){dirty=true;console.warn(error);toast('No se pudo sincronizar: '+error.message)}else{const{error:e2}=await sb.from('profiles').update({summary:mkSummary(src),is_public:src.isPublic!==false}).eq('id',USER.id);if(e2)console.warn(e2)}}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushCloud()});
 /* --- cuentas locales (solo para probar sin Supabase) --- */
 const lUsers=()=>{try{return JSON.parse(localStorage.getItem('cv_users'))||{}}catch(e){return{}}};
@@ -429,7 +583,7 @@ let data=loc;
 if(sb&&!u.local){const{data:r,error}=await sb.from('cinevault_data').select('data').eq('user_id',u.id).maybeSingle();if(error)toast('No se pudo leer la nube: '+error.message);else if(r&&r.data&&Array.isArray(r.data.movies))data={...r.data,tmdb:loc&&loc.tmdb}}
 if(!data){let lg=null;try{lg=JSON.parse(localStorage.getItem('cvault'))}catch(e){}
 if(lg&&Array.isArray(lg.movies)&&!localStorage.getItem('cv_legacy_taken')){data=lg;localStorage.setItem('cv_legacy_taken','1')}else data={name:u.username,goal:50,movies:[]}}
-S=data;if(!S.name||S.name==='Cinéfilo')S.name=u.username||S.name;
+ME=null;VW=null;communityProfile=false;CM={users:[],follows:[],loaded:false,loading:false,q:'',tab:'all',err:''};S=data;if(!S.name||S.name==='Cinéfilo')S.name=u.username||S.name;
 save();applyTheme();hideAuth();view='home';communityProfile=false;render();scrollTo(0,0)}
 const enterSb=user=>loadUser({id:user.id,email:user.email,username:(user.user_metadata||{}).username||(user.email||'').split('@')[0]});
 /* --- acciones --- */
@@ -450,7 +604,7 @@ return loadUser({id,email,username:un,local:true})}
 async function authReset(){const email=(document.getElementById('ae')?.value||'').trim().toLowerCase();if(!email)return authMsg('Escribe tu correo arriba y vuelve a pulsar.');
 const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(error)return authMsg(authErr(error));authMsg('Te hemos enviado un enlace para restablecer la contraseña.','ok')}
 async function logout(){try{await flushCloud();if(sb&&USER&&!USER.local)await sb.auth.signOut()}catch(e){console.warn(e)}
-localStorage.removeItem('cv_session');USER=null;S={name:'Cinéfilo',goal:50,movies:[]};closeM();document.documentElement.style.cssText='';$('#side').innerHTML='';$('#app').innerHTML='';showAuth('login')}
+localStorage.removeItem('cv_session');ME=null;VW=null;communityProfile=false;CM={users:[],follows:[],loaded:false,loading:false,q:'',tab:'all',err:''};USER=null;S={name:'Cinéfilo',goal:50,movies:[]};closeM();document.documentElement.style.cssText='';$('#side').innerHTML='';$('#app').innerHTML='';showAuth('login')}
 function authErr(e){const m=String((e&&e.message)||e);if(/Invalid login/i.test(m))return'Correo o contraseña incorrectos';if(/not confirmed/i.test(m))return'Confirma tu correo antes de iniciar sesión';if(/already registered/i.test(m))return'Ese correo ya está registrado';if(/rate limit/i.test(m))return'Demasiados intentos. Espera un momento';if(/Failed to fetch|NetworkError/i.test(m))return'No se pudo conectar con el servidor';return m}
 /* --- interfaz --- */
 function authUI(mode){const reg=mode==='register',rec=mode==='recover';
@@ -479,7 +633,7 @@ try{if(mode==='recover'){const{data,error}=await sb.auth.updateUser({password:pw
 else if(mode==='register')await doRegister(email,pw,un);else await doLogin(email,pw)}
 catch(err){authMsg(authErr(err))}
 finally{btn.disabled=false;btn.textContent=old}}
-function accountCard(){if(!USER)return'';return `<div class="card set" style="margin-bottom:14px"><label>Cuenta<input value="${esc(USER.username||'')} · ${esc(USER.email||'')}" disabled></label><small class="mu">${sb&&!USER.local?'Sincronizado con Supabase. La clave de TMDB se guarda solo en este dispositivo.':'Modo local: tus datos solo están en este navegador.'}</small><button class="btn r" onclick="logout()">Cerrar sesión</button></div>`}
+function accountCard(){if(!USER)return'';return `<div class="card set" style="margin-bottom:14px"><label>Cuenta<input value="${esc(USER.username||'')} · ${esc(USER.email||'')}" disabled></label>${sb&&!USER.local?`<label style="grid-template-columns:auto 1fr;align-items:center;gap:10px"><input type="checkbox" ${S.isPublic!==false?'checked':''} onchange="S.isPublic=this.checked;save();toast(this.checked?'Tu perfil es público en Comunidad':'Tu perfil ahora es privado')" style="width:20px;min-height:0;height:20px"><span>Perfil público (visible en Comunidad)</span></label>`:''}<small class="mu">${sb&&!USER.local?'Sincronizado con Supabase. La clave de TMDB se guarda solo en este dispositivo.':'Modo local: tus datos solo están en este navegador.'}</small><button class="btn r" onclick="logout()">Cerrar sesión</button></div>`}
 /* --- arranque --- */
 async function boot(){
 if(sb){sb.auth.onAuthStateChange(ev=>{if(ev==='PASSWORD_RECOVERY')showAuth('recover')});
