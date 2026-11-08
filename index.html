@@ -642,27 +642,28 @@ const mine=()=>ME||S;
 const hue=s=>Math.abs([...String(s)].reduce((a,c)=>a*31+c.charCodeAt(0)|0,7))%360;
 const avatar=(n,big)=>`<div class="community-avatar${big?' large':''}" style="background:linear-gradient(135deg,hsl(${hue(n)} 60% 52%),hsl(${(hue(n)+50)%360} 60% 36%))">${esc(String(n||'?').trim().slice(0,1).toUpperCase())}</div>`;
 /* --- datos de otros usuarios: siempre se sanean antes de pintarlos --- */
-function cleanData(d){d=d&&typeof d==='object'?d:{};const str=v=>typeof v==='string'?v:'',num=v=>Number.isFinite(+v)?+v:0,dt=v=>/^\d{4}-\d{2}-\d{2}$/.test(str(v))?v:null,arr=a=>Array.isArray(a)?a.map(str).filter(Boolean):[],rt=v=>Math.min(5,Math.max(0,num(v))),ps=v=>/^(https:\/\/|data:image\/(?:jpeg|png|webp|gif);base64,)/i.test(str(v))?v:'';
+function cleanData(d){d=d&&typeof d==='object'?d:{};const str=v=>typeof v==='string'?v:'',num=v=>Number.isFinite(+v)?+v:0,dt=v=>/^\d{4}-\d{2}-\d{2}$/.test(str(v))?v:null,arr=a=>Array.isArray(a)?a.map(str).filter(Boolean):[],rt=v=>Math.min(5,Math.max(0,num(v))),ps=v=>/^(https?:\/\/|data:image\/[a-z0-9.+-]+(?:;[^,]*)?,)/i.test(str(v).trim())?str(v).trim():'';
 const o={name:str(d.name)||'Cinéfilo',goal:Math.max(1,num(d.goal)||50),chartTheme:d.chartTheme&&typeof d.chartTheme==='object'?d.chartTheme:{},favOrder:(Array.isArray(d.favOrder)?d.favOrder:[]).map(num)};
 o.movies=(Array.isArray(d.movies)?d.movies:[]).map(m=>({id:num(m.id),title:str(m.title),year:num(m.year)||'',dur:num(m.dur),dir:str(m.dir),genres:arr(m.genres),cast:arr(m.cast),date:dt(m.date),rating:rt(m.rating),fav:!!m.fav,seen:!!m.seen,rw0:!!m.rw0,tags:arr(m.tags),where:str(m.where),poster:ps(m.poster),cp:!!m.poster&&!ps(m.poster),desc:str(m.desc),review:str(m.review),rw:(Array.isArray(m.rw)?m.rw:[]).filter(r=>r&&dt(r.date)).map(r=>({date:r.date,rating:rt(r.rating),review:str(r.review)}))})).filter(m=>m.title);o.lists=(Array.isArray(d.lists)?d.lists:[]).map(l=>({id:str(l&&l.id),name:str(l&&l.name).slice(0,60)||'Lista',desc:str(l&&l.desc).slice(0,200),ranked:!!(l&&l.ranked),ids:(Array.isArray(l&&l.ids)?l.ids:[]).map(num).filter(Boolean)})).filter(l=>l.id);return o}
-function cleanSummary(s){s=s&&typeof s==='object'?s:{};const n=v=>Number.isFinite(+v)?+v:0,t=v=>typeof v==='string'?v:'',p=v=>/^(https:\/\/|data:image\/(?:jpeg|png|webp|gif);base64,)/i.test(t(v))?v:'';
+function cleanSummary(s){s=s&&typeof s==='object'?s:{};const n=v=>Number.isFinite(+v)?+v:0,t=v=>typeof v==='string'?v:'',p=v=>/^(https?:\/\/|data:image\/[a-z0-9.+-]+(?:;[^,]*)?,)/i.test(t(v).trim())?t(v).trim():'';
 return{seen:n(s.seen),favs:n(s.favs),pending:n(s.pending),lists:n(s.lists),hours:n(s.hours),avg:n(s.avg),recent:(Array.isArray(s.recent)?s.recent:[]).slice(0,8).map(r=>({t:t(r.t),y:n(r.y)||'',p:p(r.p),d:/^\d{4}-\d{2}-\d{2}$/.test(t(r.d))?r.d:'',r:n(r.r)})),favTop:(Array.isArray(s.favTop)?s.favTop:[]).slice(0,6).map(r=>({t:t(r.t),y:n(r.y)||'',p:p(r.p)}))}}
 /* resumen público ligero que se guarda en profiles.summary */
-function mkSummary(d){const mv=d.movies||[],sn=mv.filter(m=>m.seen),rated=sn.filter(m=>m.rating>0),p=m=>m.poster||'',o=d.favOrder||[],
+function mkSummary(d){const mv=d.movies||[],sn=mv.filter(m=>m.seen),rated=sn.filter(m=>m.rating>0),p=m=>{const v=[m.poster,m.customPoster,m.posterUrl,m.poster_url,m.image].find(x=>typeof x==='string'&&/^(https?:\/\/|data:image\/)/i.test(x.trim()));return v?v.trim():''},o=d.favOrder||[],
 fv=mv.filter(m=>m.fav).sort((a,b)=>{const x=o.indexOf(a.id),y=o.indexOf(b.id);return(x<0?1e9:x)-(y<0?1e9:y)});
 return{seen:sn.length,favs:fv.length,pending:mv.length-sn.length,lists:(d.lists||[]).length,hours:Math.round(sn.reduce((s,m)=>s+(m.dur||0),0)/60),avg:rated.length?+(rated.reduce((s,m)=>s+m.rating,0)/rated.length).toFixed(2):0,
 recent:[...sn].filter(m=>m.date).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8).map(m=>({t:m.title,y:m.year,p:p(m.poster),d:m.date,r:m.rating||0})),favTop:fv.slice(0,6).map(m=>({t:m.title,y:m.year,p:p(m.poster)}))}}
+// Si el resumen público no trae una portada, la buscamos en TMDB por título/año. Las portadas personalizadas del resumen tienen prioridad.
+async function cmResolvePosters(){if(!tk()||!CM.users.length)return;const todo=[];for(const u of CM.users){for(const r of (u.s&&u.s.recent||[])){if(!r.p&&r.t)todo.push(r)}}let i=0,changed=false;const worker=async()=>{while(i<todo.length){const r=todo[i++];if(r.p)continue;try{const url=await tmPoster({title:r.t,year:r.y});if(url&&!r.p){r.p=url;changed=true}}catch(e){}}};await Promise.all([worker(),worker(),worker()]);if(changed&&view==='community'&&!communityProfile)render()}
 async function loadCommunity(){if(CM.loading)return;CM.loading=true;CM.err='';
 try{if(sb&&USER&&!USER.local){const[p,f]=await Promise.all([sb.from('profiles').select('id,username,summary,is_public').order('username').limit(500),sb.from('follows').select('follower_id,followee_id').limit(10000)]);
 if(p.error)throw p.error;if(f.error)throw f.error;
 const pub=(p.data||[]).filter(u=>u.is_public!==false||u.id===USER.id);let summaries=new Map(pub.map(u=>[u.id,cleanSummary(u.summary)]));
-// Los resúmenes antiguos pueden no contener las portadas personalizadas. Recuperamos los datos públicos reales para reconstruir las miniaturas.
-const otherIds=pub.filter(u=>u.id!==USER.id).map(u=>u.id);if(otherIds.length){const{data:movieRows,error:movieErr}=await sb.from('cinevault_data').select('user_id,data').in('user_id',otherIds);if(!movieErr){for(const row of movieRows||[]){if(row&&row.user_id&&row.data)summaries.set(row.user_id,cleanSummary(mkSummary(cleanData(row.data))))}}}
+// Comunidad usa exclusivamente el resumen público de profiles: no consulta cinevault_data para cargar las imágenes de últimas vistas.
 CM.users=pub.map(u=>({id:u.id,username:String(u.username||'?'),s:u.id===USER.id?cleanSummary(mkSummary(mine())):(summaries.get(u.id)||cleanSummary(u.summary))}));
 CM.follows=(f.data||[]).map(x=>[x.follower_id,x.followee_id])}
 else{CM.users=[{id:USER.id,username:USER.username||'Yo',s:cleanSummary(mkSummary(mine()))}];CM.follows=[]}
 CM.loaded=true}catch(e){CM.err=authErr(e)}
-CM.loading=false;if(view==='community'&&!communityProfile)render()}
+CM.loading=false;if(view==='community'&&!communityProfile){render();cmResolvePosters()}}
 function cmRefresh(){CM.loaded=false;CM.err='';render()}
 async function toggleFollow(i,ev){if(ev)ev.stopPropagation();const u=CM.users[i];if(!u)return;if(!sb||USER.local)return toast('Seguir a otros usuarios necesita Supabase');
 const has=CM.follows.some(f=>f[0]===USER.id&&f[1]===u.id);
